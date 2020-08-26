@@ -1,12 +1,36 @@
 package com.example.marsroverkatatdd
 
-class MarsRover {
+class MarsRover(val position: Position, val direction: Direction) {
+
+    lateinit var commands: Array<Char>
+
+    fun startMarsRover(commands: Array<Char>) {
+        this.commands = commands
+
+        commands.forEach { command ->
+            if(command == 'f'){
+                when(direction){
+                    Direction.North -> position.y++
+                    Direction.South -> position.y--
+                    Direction.East -> position.x++
+                    Direction.West -> position.x--
+                }
+            } else if (command == 'b') {
+                when(direction){
+                    Direction.North -> TODO()
+                    Direction.South -> TODO()
+                    Direction.East -> TODO()
+                    Direction.West -> TODO()
+                }
+            }
 
 
+        }
+    }
 }
 
 
-data class Position(val x: Int, val y: Int)
+data class Position(var x: Int, var y: Int)
 
 
 enum class Direction{
