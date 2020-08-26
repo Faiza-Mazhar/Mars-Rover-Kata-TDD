@@ -17,10 +17,10 @@ class MarsRover(val position: Position, val direction: Direction) {
                 }
             } else if (command == 'b') {
                 when(direction){
-                    Direction.North -> TODO()
-                    Direction.South -> TODO()
-                    Direction.East -> TODO()
-                    Direction.West -> TODO()
+                    Direction.North -> position.y--
+                    Direction.South -> position.y++
+                    Direction.East -> position.x--
+                    Direction.West -> position.x++
                 }
             }
 
