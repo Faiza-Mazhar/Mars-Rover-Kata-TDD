@@ -22,6 +22,13 @@ class MarsRover(val position: Position, val direction: Direction) {
                     Direction.East -> position.x--
                     Direction.West -> position.x++
                 }
+            } else if (command == 'l') {
+                when(direction){
+                    Direction.North -> position.x--
+                    Direction.South -> position.x++
+                    Direction.East -> position.y++
+                    Direction.West -> position.y--
+                }
             }
 
 

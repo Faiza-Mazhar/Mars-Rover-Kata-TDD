@@ -153,6 +153,61 @@ internal class MarsRoverTest {
         Assert.assertEquals(expectedPosition, marsRover.position)
     }
 
+    @Test
+    fun `if the direction is North, then l command will move -1 in x-axis `() {
+        val commands = arrayOf('l')
+        initialPosition = Position(0, 0)
+        direction = Direction.North
+        marsRover = createMarsRover(initialPosition, direction)
+
+        val expectedPosition = Position(-1, 0)
+
+        marsRover.startMarsRover(commands)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if the direction is South, then l command will move +1 in x-axis `() {
+        val commands = arrayOf('l')
+        initialPosition = Position(0, 0)
+        direction = Direction.South
+        marsRover = createMarsRover(initialPosition, direction)
+
+        val expectedPosition = Position(1, 0)
+
+        marsRover.startMarsRover(commands)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if the direction is East, then l command will move +1 in y-axis `() {
+        val commands = arrayOf('l')
+        initialPosition = Position(0, 0)
+        direction = Direction.East
+        marsRover = createMarsRover(initialPosition, direction)
+
+        val expectedPosition = Position(0, 1)
+
+        marsRover.startMarsRover(commands)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if the direction is West, then l command will move -1 in y-axis `() {
+        val commands = arrayOf('l')
+        initialPosition = Position(0, 0)
+        direction = Direction.West
+        marsRover = createMarsRover(initialPosition, direction)
+
+        val expectedPosition = Position(0, -1)
+
+        marsRover.startMarsRover(commands)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
 
     private fun createMarsRover(position: Position, direction: Direction): MarsRover {
         return MarsRover(position, direction)
