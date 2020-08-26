@@ -1,47 +1,46 @@
 package com.example.marsroverkatatdd
 
-class MarsRover(val position: Position, val direction: Direction) {
+import java.lang.Math.abs
+
+
+class MarsRover(val position: Position, var direction: Direction) {
 
     lateinit var commands: Array<Char>
-
+    var currentDirection = -1
     fun startMarsRover(commands: Array<Char>) {
         this.commands = commands
 
         commands.forEach { command ->
-            if(command == 'f'){
-                when(direction){
-                    Direction.North -> position.y++
-                    Direction.South -> position.y--
-                    Direction.East -> position.x++
-                    Direction.West -> position.x--
+            when (command) {
+                'f' -> {
+                    when (direction) {
+                        Direction.North -> position.y++
+                        Direction.South -> position.y--
+                        Direction.East -> position.x++
+                        Direction.West -> position.x--
+                    }
                 }
-            } else if (command == 'b') {
-                when(direction){
-                    Direction.North -> position.y--
-                    Direction.South -> position.y++
-                    Direction.East -> position.x--
-                    Direction.West -> position.x++
+                'b' -> {
+                    when (direction) {
+                        Direction.North -> position.y--
+                        Direction.South -> position.y++
+                        Direction.East -> position.x--
+                        Direction.West -> position.x++
+                    }
                 }
-            } else if (command == 'l') {
-                when(direction){
-                    Direction.North -> position.x--
-                    Direction.South -> position.x++
-                    Direction.East -> position.y++
-                    Direction.West -> position.y--
+                'l' -> {
+                    currentDirection = ((direction.ordinal + 4) - 1) % 4
+                    direction = Direction.values()[currentDirection]
                 }
-            } else if(command == 'r') {
-                when(direction) {
-                    Direction.North -> position.x++
-                    Direction.South -> position.x--
-                    Direction.East -> position.y--
-                    Direction.West -> position.y++
+                'r' -> {
+                    currentDirection = (direction.ordinal + 1) % 4
+                    direction = Direction.values()[currentDirection]
                 }
             }
-
-
         }
     }
 }
+
 
 
 data class Position(var x: Int, var y: Int)
@@ -49,7 +48,7 @@ data class Position(var x: Int, var y: Int)
 
 enum class Direction{
     North,
-    South,
     East,
+    South,
     West
 }
