@@ -248,6 +248,21 @@ internal class MarsRoverTest {
         Assert.assertEquals(expectedDirection, marsRover.direction)
     }
 
+    @Test
+    fun `test commands to turn right, back, forward and left, will bring the rover in initial place, ` () {
+        val commands = arrayOf('r', 'b', 'f', 'l')
+        initialPosition = Position(0, 0)
+        direction = Direction.North
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedDirection = Direction.North
+        val expectedPosition = initialPosition
+
+        Assert.assertEquals(expectedDirection, marsRover.direction)
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
     private fun createMarsRover(position: Position, direction: Direction): MarsRover {
         return MarsRover(position, direction)
     }
