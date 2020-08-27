@@ -9,6 +9,8 @@ internal class MarsRoverTest {
     private lateinit var initialPosition: Position
     private lateinit var direction: Direction
     private lateinit var  marsRover: MarsRover
+    
+    private val gridSize = 5
 
 
     @Test
@@ -54,7 +56,7 @@ internal class MarsRoverTest {
         direction = Direction.South
         marsRover = createMarsRover(initialPosition, direction)
 
-        val expectedPosition = Position(0, -1)
+        val expectedPosition = Position(0, gridSize-1)
 
         marsRover.startMarsRover(commands)
 
@@ -78,11 +80,11 @@ internal class MarsRoverTest {
     @Test
     fun `if the direction is West, then f command will move -1 in x-axis `() {
         val commands = arrayOf('f')
-        initialPosition = Position(0, 0)
+        initialPosition = Position(1, 1)
         direction = Direction.West
         marsRover = createMarsRover(initialPosition, direction)
 
-        val expectedPosition = Position(-1, 0)
+        val expectedPosition = Position(0, 1)
 
         marsRover.startMarsRover(commands)
 
@@ -96,7 +98,7 @@ internal class MarsRoverTest {
         direction = Direction.North
         marsRover = createMarsRover(initialPosition, direction)
 
-        val expectedPosition = Position(0, -1)
+        val expectedPosition = Position(0, gridSize-1)
 
         marsRover.startMarsRover(commands)
 
@@ -124,7 +126,7 @@ internal class MarsRoverTest {
         direction = Direction.East
         marsRover = createMarsRover(initialPosition, direction)
 
-        val expectedPosition = Position(-1, 0)
+        val expectedPosition = Position(gridSize-1, 0)
 
         marsRover.startMarsRover(commands)
 
@@ -249,7 +251,7 @@ internal class MarsRoverTest {
     }
 
     @Test
-    fun `test commands to turn right, back, forward and left, will bring the rover in initial place, ` () {
+    fun `test commands to turn right, back, forward and left, will bring the rover in initial place` () {
         val commands = arrayOf('r', 'b', 'f', 'l')
         initialPosition = Position(0, 0)
         direction = Direction.North
@@ -263,7 +265,111 @@ internal class MarsRoverTest {
         Assert.assertEquals(expectedPosition, marsRover.position)
     }
 
+    @Test
+    fun `if Rover is on right edge of x-axis, facing East with forward command, it goes to left edge`() {
+        val commands = arrayOf('f')
+        initialPosition = Position(gridSize-1, 0)
+        direction = Direction.East
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(0, 0)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on left edge of x-axis, facing West with forward command, it goes to right edge`() {
+        val commands = arrayOf('f')
+        initialPosition = Position(0, 0)
+        direction = Direction.West
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(gridSize-1, 0)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on top edge of y-axis, facing North with forward command, it goes to bottom edge`() {
+        val commands = arrayOf('f')
+        initialPosition = Position(0,gridSize-1)
+        direction = Direction.North
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(0, 0)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on bottom edge of y-axis, facing South with forward command, it goes to bottom edge`() {
+        val commands = arrayOf('f')
+        initialPosition = Position(0,0)
+        direction = Direction.South
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(0, gridSize-1)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on right edge of x-axis, facing West with back command, it goes to left edge`() {
+        val commands = arrayOf('b')
+        initialPosition = Position(gridSize-1, 0)
+        direction = Direction.West
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(0, 0)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on left edge of x-axis, facing East with back command, it goes to right edge`() {
+        val commands = arrayOf('b')
+        initialPosition = Position(0, 0)
+        direction = Direction.East
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(gridSize-1, 0)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on top edge of y-axis, facing South with back command, it goes to bottom edge`() {
+        val commands = arrayOf('b')
+        initialPosition = Position(0,gridSize-1)
+        direction = Direction.South
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(0, 0)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
+    @Test
+    fun `if Rover is on bottom edge of y-axis, facing North with back command, it goes to top edge`() {
+        val commands = arrayOf('b')
+        initialPosition = Position(0,0)
+        direction = Direction.North
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(0, gridSize-1)
+
+        Assert.assertEquals(expectedPosition, marsRover.position)
+    }
+
     private fun createMarsRover(position: Position, direction: Direction): MarsRover {
-        return MarsRover(position, direction)
+        return MarsRover(position, direction, gridSize)
     }
 }
