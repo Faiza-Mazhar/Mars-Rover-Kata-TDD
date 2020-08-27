@@ -7,17 +7,30 @@ class MarsRover(internal var currentPosition: Position, var direction: Direction
 
     private val obstacle = arrayOf(Position(2, 3), Position(3, 2))
 
-    fun startMarsRover(commands: Array<Char>) {
+    fun startMarsRover(commands: Array<Char>): Boolean {
         this.commands = commands
+        var obstacleEncountered = false;
+
         commands.forEach { command ->
+
             val nextPosition = getNextPosition(command)
-            if(!isObstacle(nextPosition)) {
-                currentPosition = nextPosition
+
+            if(isObstacleAt(nextPosition)) {
+                obstacleEncountered = true
+                return@forEach
+
+            } else {
+                when(command) {
+                    'l' -> computeLeftDirection()
+                    'r' -> computeRightDirection()
+                    else -> currentPosition = nextPosition
+                }
             }
         }
+        return obstacleEncountered
     }
 
-    private fun isObstacle(position: Position): Boolean {
+    private fun isObstacleAt(position: Position): Boolean {
         return obstacle.any {
             it == position
         }
@@ -28,31 +41,41 @@ class MarsRover(internal var currentPosition: Position, var direction: Direction
         when (command) {
             'f' -> {
                 when (direction) {
-                    Direction.North -> newPosition.y = (newPosition.y + 1) % gridSize
-                    Direction.South -> newPosition.y = (newPosition.y + gridSize - 1) % gridSize
-                    Direction.East -> newPosition.x = (newPosition.x + 1) % gridSize
-                    Direction.West -> newPosition.x = (newPosition.x + gridSize - 1) % gridSize
+                    Direction.North -> newPosition.y = addToPositionAxis(newPosition.y)
+                    Direction.South -> newPosition.y = subtractFromPositionAxis(newPosition.y)
+                    Direction.East -> newPosition.x = addToPositionAxis(newPosition.x)
+                    Direction.West -> newPosition.x = subtractFromPositionAxis(newPosition.x)
                 }
             }
             'b' -> {
                 when (direction) {
-                    Direction.North -> newPosition.y = (newPosition.y + gridSize - 1) % gridSize
-                    Direction.South -> newPosition.y = (newPosition.y + 1) % gridSize
-                    Direction.East -> newPosition.x = (newPosition.x + gridSize - 1) % gridSize
-                    Direction.West -> newPosition.x = (newPosition.x + 1) % gridSize
+                    Direction.North -> newPosition.y = subtractFromPositionAxis(newPosition.y)
+                    Direction.South -> newPosition.y = addToPositionAxis(newPosition.y)
+                    Direction.East -> newPosition.x = subtractFromPositionAxis(newPosition.x)
+                    Direction.West -> newPosition.x = addToPositionAxis(newPosition.x)
                 }
             }
-            'l' -> {
-                currentDirection = ((direction.ordinal + Direction.values().size) - 1) % Direction.values().size
-                direction = Direction.values()[currentDirection]
-            }
-            'r' -> {
-                currentDirection = (direction.ordinal + 1) % Direction.values().size
-                direction = Direction.values()[currentDirection]
-            }
         }
-
         return newPosition
+    }
+
+    private fun computeLeftDirection() {
+        currentDirection = ((direction.ordinal + Direction.values().size) - 1) % Direction.values().size
+        direction = Direction.values()[currentDirection]
+    }
+
+    private fun computeRightDirection() {
+        currentDirection = (direction.ordinal + 1) % Direction.values().size
+        direction = Direction.values()[currentDirection]
+    }
+
+
+    private fun addToPositionAxis(value: Int): Int{
+        return (value + 1) % gridSize
+    }
+
+    private fun subtractFromPositionAxis(value: Int): Int{
+        return (value + gridSize - 1) % gridSize
     }
 }
 

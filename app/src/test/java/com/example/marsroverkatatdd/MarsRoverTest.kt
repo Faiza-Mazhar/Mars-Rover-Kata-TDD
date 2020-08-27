@@ -375,11 +375,12 @@ internal class MarsRoverTest {
         initialPosition = Position(1,3)
         direction = Direction.East
         marsRover = createMarsRover(initialPosition, direction)
-        marsRover.startMarsRover(commands)
+        val obstacleEncountered = marsRover.startMarsRover(commands)
 
         val expectedPosition = Position(1, 3)
 
         Assert.assertEquals(expectedPosition, marsRover.currentPosition)
+        Assert.assertTrue(obstacleEncountered)
     }
 
     @Test
@@ -388,11 +389,12 @@ internal class MarsRoverTest {
         initialPosition = Position(2,3)
         direction = Direction.East
         marsRover = createMarsRover(initialPosition, direction)
-        marsRover.startMarsRover(commands)
+        val obstacleEncountered = marsRover.startMarsRover(commands)
 
         val expectedPosition = Position(3, 3)
 
         Assert.assertEquals(expectedPosition, marsRover.currentPosition)
+        Assert.assertFalse(obstacleEncountered)
     }
 
     private fun createMarsRover(position: Position, direction: Direction): MarsRover {
