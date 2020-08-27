@@ -19,7 +19,7 @@ internal class MarsRoverTest {
         direction = Direction.West
         marsRover = createMarsRover(initialPosition, direction)
 
-        Assert.assertEquals(initialPosition, marsRover.position)
+        Assert.assertEquals(initialPosition, marsRover.currentPosition)
         Assert.assertEquals(direction, marsRover.direction)
     }
 
@@ -46,7 +46,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -60,7 +60,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -74,7 +74,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -88,7 +88,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -102,7 +102,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -116,7 +116,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -130,7 +130,7 @@ internal class MarsRoverTest {
 
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -143,7 +143,7 @@ internal class MarsRoverTest {
         val expectedPosition = Position(1, 0)
         marsRover.startMarsRover(commands)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -262,7 +262,7 @@ internal class MarsRoverTest {
         val expectedPosition = initialPosition
 
         Assert.assertEquals(expectedDirection, marsRover.direction)
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -275,7 +275,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(0, 0)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -288,7 +288,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(gridSize-1, 0)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -301,7 +301,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(0, 0)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -314,7 +314,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(0, gridSize-1)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -327,7 +327,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(0, 0)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -340,7 +340,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(gridSize-1, 0)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -353,7 +353,7 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(0, 0)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     @Test
@@ -366,7 +366,33 @@ internal class MarsRoverTest {
 
         val expectedPosition = Position(0, gridSize-1)
 
-        Assert.assertEquals(expectedPosition, marsRover.position)
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
+    }
+
+    @Test
+    fun `if next position is a obstacle, then don't change the position` () {
+        val commands = arrayOf('f')
+        initialPosition = Position(1,3)
+        direction = Direction.East
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(1, 3)
+
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
+    }
+
+    @Test
+    fun `if next position is not a obstacle, then change the position`() {
+        val commands = arrayOf('f')
+        initialPosition = Position(2,3)
+        direction = Direction.East
+        marsRover = createMarsRover(initialPosition, direction)
+        marsRover.startMarsRover(commands)
+
+        val expectedPosition = Position(3, 3)
+
+        Assert.assertEquals(expectedPosition, marsRover.currentPosition)
     }
 
     private fun createMarsRover(position: Position, direction: Direction): MarsRover {
